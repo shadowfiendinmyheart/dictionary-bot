@@ -10,14 +10,24 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
   },
   "scripts": {
     "start": "ts-node main.ts",
     "dev": "nodemon main.ts",
+    "lint": "eslint --fix . && echo 'Lint complete.'",
+    "prettier": "prettier -w *.ts",
     "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo 'Error: no test specified' && exit "
   },
   "author": "shadowfiendinmyheart@gmail.com",
   "license": "ISC"
