@@ -10,8 +10,7 @@ if (!process.env.BOT_TOKEN) {
 }
 
 const bot = new Telegraf<Scenes.SceneContext>(process.env.BOT_TOKEN as string);
-
-const stage = new Scenes.Stage<any>([authScene]);
+const stage = new Scenes.Stage<Scenes.SceneContext>([authScene]);
 
 bot.use(session());
 bot.use(debugLogger);
