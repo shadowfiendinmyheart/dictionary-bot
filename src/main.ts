@@ -4,13 +4,14 @@ import { Telegraf, session, Scenes } from 'telegraf';
 import { debugLogger } from './middlewares/logger';
 
 import authScene from './scenes/AuthScene';
+import homeScene from './scenes/HomeScene';
 
 if (!process.env.BOT_TOKEN) {
   throw new Error('BOT_TOKEN must be provided!');
 }
 
 const bot = new Telegraf<Scenes.SceneContext>(process.env.BOT_TOKEN as string);
-const stage = new Scenes.Stage<Scenes.SceneContext>([authScene]);
+const stage = new Scenes.Stage<Scenes.SceneContext>([authScene, homeScene]);
 
 bot.use(session());
 bot.use(debugLogger);
@@ -18,7 +19,8 @@ bot.use(stage.middleware());
 
 bot.start(async (ctx) => {
   await ctx.reply('Добро пожаловать');
-  ctx.scene.enter('auth');
+  // на время разработки
+  ctx.scene.enter('home');
 });
 
 bot.command('q', async (ctx) => {

@@ -4,8 +4,6 @@ import http from '../../utils/http';
 import { editMessage } from '../../utils/message';
 import { authKeyboard, allowText } from './utils';
 
-const { enter } = Scenes.Stage;
-
 export interface userDataType {
   authLogin: string;
   authPassword: string;
@@ -54,7 +52,7 @@ authScene.action('makeAuth', async (ctx) => {
 
   if (request && request.status == 200) {
     await ctx.reply('Вы успешно авторизовались');
-    // ctx.scene.enter('home');
+    ctx.scene.enter('home');
   } else {
     await ctx.replyWithHTML('Данные введены неверно', authKeyboard);
   }
