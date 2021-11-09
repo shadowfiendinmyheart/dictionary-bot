@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { Telegraf, session, Scenes } from 'telegraf';
+import { stopLoadingInlineButton } from './middlewares/inlineKeyboardMiddleware';
 
 import { debugLogger } from './middlewares/logger';
 
@@ -14,13 +15,18 @@ const bot = new Telegraf<Scenes.SceneContext>(process.env.BOT_TOKEN as string);
 const stage = new Scenes.Stage<Scenes.SceneContext>([authScene, homeScene]);
 
 bot.use(session());
-bot.use(debugLogger);
 bot.use(stage.middleware());
+bot.use(debugLogger);
+bot.use(stopLoadingInlineButton);
 
 bot.start(async (ctx) => {
   await ctx.reply('Добро пожаловать');
   // на время разработки
-  ctx.scene.enter('home');
+  ctx.scene.enter('auth');
+});
+
+bot.on('message', async (ctx) => {
+  await ctx.scene.enter('home');
 });
 
 bot.command('q', async (ctx) => {
