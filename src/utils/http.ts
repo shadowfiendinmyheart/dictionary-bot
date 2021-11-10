@@ -2,14 +2,18 @@ import fetch from 'cross-fetch';
 
 const http = async (
   url: string,
-  method = 'GET',
-  body?: object | string,
+  method: string = 'GET',
+  body?: object | string | null,
   headers?: object
 ) => {
   try {
+    if (body) {
+      body = JSON.stringify(body);
+    }
+
     const res: Response = await fetch(url, {
       method: method,
-      body: JSON.stringify(body),
+      body: body,
       headers: {
         'Content-Type': 'application/json',
         ...headers,

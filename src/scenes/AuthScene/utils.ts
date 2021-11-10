@@ -1,5 +1,6 @@
 import { Markup } from 'telegraf';
 import { IUserData } from '.';
+import { API_URL } from '../../const';
 import http from '../../utils/http';
 
 export const authKeyboard = Markup.inlineKeyboard([
@@ -17,11 +18,7 @@ export const allowText = (userData: IUserData) => {
 };
 
 export const auth = async (ctx: any, userData: IUserData) => {
-  const request = await http(
-    'https://fierce-ridge-30370.herokuapp.com/api/auth/login',
-    'POST',
-    userData
-  );
+  const request = await http(API_URL + 'api/auth/login', 'POST', userData);
 
   if (!request || request.status !== 200) return false;
 

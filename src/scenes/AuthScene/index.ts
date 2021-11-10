@@ -24,6 +24,7 @@ enum InputMode {
   Default,
 }
 
+// TODO: повторяется
 let inputMode: InputMode = InputMode.Default;
 const authScene = new Scenes.BaseScene<Scenes.SceneContext>('auth');
 
