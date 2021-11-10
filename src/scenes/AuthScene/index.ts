@@ -1,17 +1,14 @@
 import { Scenes } from 'telegraf';
 
-import http from '../../utils/http';
 import { editMessage } from '../../utils/message';
-import { authKeyboard, allowText } from './utils';
+import { authKeyboard, allowText, auth } from './utils';
 
-const { enter } = Scenes.Stage;
-
-export interface userDataType {
+export interface IUserData {
   authLogin: string;
   authPassword: string;
 }
 
-const userData: userDataType = {
+const userData: IUserData = {
   authLogin: '',
   authPassword: '',
 };
@@ -46,15 +43,11 @@ authScene.action('password', async (ctx) => {
 });
 
 authScene.action('makeAuth', async (ctx) => {
-  const request = await http(
-    'https://fierce-ridge-30370.herokuapp.com/api/auth/login',
-    'POST',
-    userData
-  );
-
-  if (request && request.status == 200) {
+  const isAuth: boolean = await auth(ctx, userData);
+  if (isAuth) {
+    console.log('session', ctx.session);
     await ctx.reply('Вы успешно авторизовались');
-    // ctx.scene.enter('home');
+    ctx.scene.enter('home');
   } else {
     await ctx.replyWithHTML('Данные введены неверно', authKeyboard);
   }
