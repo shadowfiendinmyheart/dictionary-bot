@@ -9,9 +9,9 @@ homeScene.enter((ctx) => {
   ctx.reply('Home scene!', homeKeyboard);
 });
 
-homeScene.action('addWord', async (ctx) => {
+homeScene.action('word', async (ctx) => {
   // await ctx.answerCbQuery();
-  await ctx.scene.enter('addWord');
+  await ctx.scene.enter('word');
 });
 
 homeScene.action('dictionary', async (ctx) => {
