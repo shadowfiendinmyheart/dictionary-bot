@@ -29,7 +29,7 @@ bot.use(stage.middleware());
 bot.start(async (ctx) => {
   await ctx.reply('Добро пожаловать');
   // на время разработки
-  ctx.scene.enter('dictionary');
+  ctx.scene.enter('auth');
 });
 
 bot.on('message', async (ctx) => {

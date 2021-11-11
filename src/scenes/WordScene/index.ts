@@ -30,6 +30,10 @@ addWordScene.action('deleteWord', async (ctx) => {
   inputMode = InputMode.Delete;
 });
 
+addWordScene.action('home', async (ctx) => {
+  await ctx.scene.enter('home');
+});
+
 addWordScene.on('text', async (ctx) => {
   switch (inputMode) {
     case InputMode.Add: {

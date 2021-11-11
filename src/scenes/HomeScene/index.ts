@@ -14,8 +14,7 @@ homeScene.action('word', async (ctx) => {
 });
 
 homeScene.action('dictionary', async (ctx) => {
-  await ctx.reply('mock', homeKeyboard);
-  // await ctx.scene.enter('dictionary');
+  await ctx.scene.enter('dictionary');
 });
 
 homeScene.action('game', async (ctx) => {

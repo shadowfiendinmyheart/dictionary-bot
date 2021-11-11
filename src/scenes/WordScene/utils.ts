@@ -5,6 +5,7 @@ import http from '../../utils/http';
 export const wordKeyboard = Markup.inlineKeyboard([
   [Markup.button.callback('Добавить слово', 'addWord')],
   [Markup.button.callback('Удалить слово', 'deleteWord')],
+  [Markup.button.callback('Назад', 'home')],
 ]);
 
 export const addWordInDictionary = async (ctx: any, word: string) => {
@@ -24,7 +25,6 @@ export const addWordInDictionary = async (ctx: any, word: string) => {
     };
   }
 
-  // TODO: показать перевод слова
   const translations = await http(
     API_URL + `words/translate?word=${word}`,
     'GET',
