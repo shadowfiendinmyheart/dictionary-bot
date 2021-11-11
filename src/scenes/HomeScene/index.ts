@@ -10,7 +10,6 @@ homeScene.enter((ctx) => {
 });
 
 homeScene.action('word', async (ctx) => {
-  // await ctx.answerCbQuery();
   await ctx.scene.enter('word');
 });
 

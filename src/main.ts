@@ -7,6 +7,7 @@ import { debugLogger } from './middlewares/logger';
 import authScene from './scenes/AuthScene';
 import homeScene from './scenes/HomeScene';
 import wordScene from './scenes/WordScene';
+import dictionaryScene from './scenes/DictionaryScene';
 
 if (!process.env.BOT_TOKEN) {
   throw new Error('BOT_TOKEN must be provided!');
@@ -17,6 +18,7 @@ const stage = new Scenes.Stage<Scenes.SceneContext>([
   authScene,
   homeScene,
   wordScene,
+  dictionaryScene,
 ]);
 
 bot.use(debugLogger);
@@ -27,7 +29,7 @@ bot.use(stage.middleware());
 bot.start(async (ctx) => {
   await ctx.reply('Добро пожаловать');
   // на время разработки
-  ctx.scene.enter('auth');
+  ctx.scene.enter('dictionary');
 });
 
 bot.on('message', async (ctx) => {
