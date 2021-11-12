@@ -25,17 +25,12 @@ export const getDictionary = async (
   dictionary: typeOfDictionary,
   numberOfPage: number
 ) => {
-  console.log('dictionary', dictionary);
-  console.log('numberOfPage', numberOfPage);
-
   const request = await http(
     API_URL + `words/${dictionary}?page=${numberOfPage}&mode=0`,
     'GET',
     null,
     { Authorization: `Bearer ${ctx.session.accessToken}` }
   );
-
-  console.log('requset', request);
 
   const words = request.words.map((word: IWord) => {
     return {
@@ -130,4 +125,18 @@ export const showWordList = async (
       }</b>\n${word.translations[0]}`
     );
   }
+};
+
+export const getWord = async (ctx: any, word: string) => {
+  const request = await http(
+    API_URL + `words/getWord?reqWord=${word}`,
+    'GET',
+    null,
+    { Authorization: `Bearer ${ctx.session.accessToken}` }
+  );
+
+  return {
+    status: request.status,
+    message: request.message,
+  };
 };

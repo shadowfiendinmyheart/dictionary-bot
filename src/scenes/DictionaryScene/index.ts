@@ -1,7 +1,7 @@
 import { Markup, Scenes } from 'telegraf';
 
 import { unexceptedUserInputHandler } from '../../utils/sceneHandler';
-import { dictionaryKeyboard, showWordPage } from './utils';
+import { dictionaryKeyboard, getWord, showWordPage } from './utils';
 
 enum InputMode {
   MainDictionary,
@@ -39,6 +39,11 @@ dictionaryScene.action('mainDictionary', async (ctx) => {
 dictionaryScene.action('draftDictionary', async (ctx) => {
   inputMode = InputMode.DraftDictionary;
   await showWordPage(ctx, 'draftDictionary', pagination);
+});
+
+dictionaryScene.action('find', async (ctx) => {
+  inputMode = InputMode.FindWord;
+  await ctx.reply('Введите слово, которое нужно найти:');
 });
 
 dictionaryScene.hears('Следующая страница', async (ctx) => {
@@ -80,8 +85,18 @@ dictionaryScene.on('text', async (ctx) => {
       break;
     }
     case InputMode.FindWord: {
-      const word: string = ctx.message.text;
+      const userWord: string = ctx.message.text;
+      const wordRequest = await getWord(ctx, userWord);
 
+      if (wordRequest.status !== 200) {
+        await ctx.replyWithHTML(`Произошла ошибка:\n${wordRequest.message}`);
+        break;
+      }
+
+      await ctx.replyWithHTML(
+        `<b>${wordRequest.message.word}</b>\n${wordRequest.message.translations[0]}`,
+        Markup.keyboard([['В меню']]).resize(true)
+      );
       break;
     }
     default: {
