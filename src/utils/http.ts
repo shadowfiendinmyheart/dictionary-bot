@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 
 const http = async (
   url: string,
-  method: string = 'GET',
+  method = 'GET',
   body?: object | string | null,
   headers?: object
 ) => {

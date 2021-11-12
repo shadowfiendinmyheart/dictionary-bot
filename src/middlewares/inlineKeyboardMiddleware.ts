@@ -6,7 +6,6 @@ export const stopLoadingInlineButton = async (
   next: callbackFunction
 ) => {
   if (ctx.callbackQuery) {
-    console.log('here');
     await ctx.answerCbQuery();
   }
   next();

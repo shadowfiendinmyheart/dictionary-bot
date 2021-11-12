@@ -24,7 +24,6 @@ enum InputMode {
   Default,
 }
 
-// TODO: повторяется
 let inputMode: InputMode = InputMode.Default;
 const authScene = new Scenes.BaseScene<Scenes.SceneContext>('auth');
 
@@ -44,6 +43,12 @@ authScene.action('password', async (ctx) => {
 });
 
 authScene.action('makeAuth', async (ctx) => {
+  if (userData.authLogin.length < 6 && userData.authPassword.length < 6) {
+    await ctx.replyWithHTML('Данные введены неверно', authKeyboard);
+    inputMode = InputMode.Default;
+    return;
+  }
+
   const isAuth: boolean = await auth(ctx, userData);
   if (isAuth) {
     console.log('session', ctx.session);

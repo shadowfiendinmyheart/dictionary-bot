@@ -6,21 +6,19 @@ import { unexceptedUserInputHandler } from '../../utils/sceneHandler';
 const homeScene = new Scenes.BaseScene<Scenes.SceneContext>('home');
 
 homeScene.enter((ctx) => {
-  ctx.reply('Home scene!', homeKeyboard);
+  ctx.reply('Меню:', homeKeyboard);
 });
 
-homeScene.action('addWord', async (ctx) => {
-  // await ctx.answerCbQuery();
-  await ctx.scene.enter('addWord');
+homeScene.action('word', async (ctx) => {
+  await ctx.scene.enter('word');
 });
 
 homeScene.action('dictionary', async (ctx) => {
-  await ctx.reply('mock', homeKeyboard);
-  // await ctx.scene.enter('dictionary');
+  await ctx.scene.enter('dictionary');
 });
 
 homeScene.action('game', async (ctx) => {
-  await ctx.reply('mock', homeKeyboard);
+  await ctx.reply('Мы (я😢) работаем над этим', homeKeyboard);
   // await ctx.scene.enter('game');
 });
 

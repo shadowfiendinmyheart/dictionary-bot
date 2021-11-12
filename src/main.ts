@@ -6,7 +6,8 @@ import { debugLogger } from './middlewares/logger';
 
 import authScene from './scenes/AuthScene';
 import homeScene from './scenes/HomeScene';
-import addWordScene from './scenes/AddWordScene';
+import wordScene from './scenes/WordScene';
+import dictionaryScene from './scenes/DictionaryScene';
 
 if (!process.env.BOT_TOKEN) {
   throw new Error('BOT_TOKEN must be provided!');
@@ -16,7 +17,8 @@ const bot = new Telegraf<Scenes.SceneContext>(process.env.BOT_TOKEN as string);
 const stage = new Scenes.Stage<Scenes.SceneContext>([
   authScene,
   homeScene,
-  addWordScene,
+  wordScene,
+  dictionaryScene,
 ]);
 
 bot.use(debugLogger);
@@ -31,11 +33,7 @@ bot.start(async (ctx) => {
 });
 
 bot.on('message', async (ctx) => {
-  await ctx.scene.enter('home');
-});
-
-bot.command('q', async (ctx) => {
-  await ctx.reply('main scene');
+  ctx.scene.enter('auth');
 });
 
 bot.launch();
