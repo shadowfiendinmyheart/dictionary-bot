@@ -49,17 +49,48 @@ dictionaryScene.action('find', async (ctx) => {
 dictionaryScene.hears('Следующая страница', async (ctx) => {
   switch (inputMode) {
     case InputMode.MainDictionary: {
-      pagination.mainDictionary++;
-      await showWordPage(ctx, 'mainDictionary', pagination);
+      if (pagination.mainDictionary < pagination.maxMainDictionary) {
+        pagination.mainDictionary++;
+        await showWordPage(ctx, 'mainDictionary', pagination);
+        break;
+      }
+      await ctx.reply('Ошибочка вышла, упс');
       break;
     }
     case InputMode.DraftDictionary: {
-      pagination.draftDictionary++;
-      await showWordPage(ctx, 'draftDictionary', pagination);
+      if (pagination.draftDictionary < pagination.maxDraftDictionary) {
+        pagination.draftDictionary++;
+        await showWordPage(ctx, 'draftDictionary', pagination);
+        break;
+      }
+      await ctx.reply('Ошибочка вышла, упс');
       break;
     }
   }
 });
+
+dictionaryScene.hears('Предыдущая страница', async (ctx) => {
+  switch (inputMode) {
+    case InputMode.MainDictionary: {
+      if (pagination.mainDictionary > 1) {
+        pagination.mainDictionary--;
+        await showWordPage(ctx, 'mainDictionary', pagination);
+        break;
+      }
+      await ctx.reply('Ошибочка вышла, упс');
+      break;
+    }
+    case InputMode.DraftDictionary: {
+      if (pagination.draftDictionary > 1) {
+        pagination.draftDictionary--;
+        await showWordPage(ctx, 'draftDictionary', pagination);
+        break;
+      }
+      await ctx.reply('Ошибочка вышла, упс');
+      break;
+    }
+  }
+})
 
 dictionaryScene.hears('В меню', async (ctx) => {
   inputMode = InputMode.Default;
