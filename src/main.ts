@@ -33,11 +33,7 @@ bot.start(async (ctx) => {
 });
 
 bot.on('message', async (ctx) => {
-  await ctx.scene.enter('home');
-});
-
-bot.command('q', async (ctx) => {
-  await ctx.reply('main scene');
+  ctx.scene.enter('auth');
 });
 
 bot.launch();

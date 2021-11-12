@@ -6,7 +6,7 @@ import { unexceptedUserInputHandler } from '../../utils/sceneHandler';
 const homeScene = new Scenes.BaseScene<Scenes.SceneContext>('home');
 
 homeScene.enter((ctx) => {
-  ctx.reply('Home scene!', homeKeyboard);
+  ctx.reply('Меню:', homeKeyboard);
 });
 
 homeScene.action('word', async (ctx) => {
@@ -18,7 +18,7 @@ homeScene.action('dictionary', async (ctx) => {
 });
 
 homeScene.action('game', async (ctx) => {
-  await ctx.reply('mock', homeKeyboard);
+  await ctx.reply('Мы (я😢) работаем над этим', homeKeyboard);
   // await ctx.scene.enter('game');
 });
 

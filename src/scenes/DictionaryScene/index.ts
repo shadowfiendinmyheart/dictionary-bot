@@ -1,7 +1,9 @@
 import { Markup, Scenes } from 'telegraf';
+import { Message } from 'typegram';
+import { deleteChatMessage } from '../../utils/message';
 
 import { unexceptedUserInputHandler } from '../../utils/sceneHandler';
-import { dictionaryKeyboard, getWord, showWordPage } from './utils';
+import { dictionaryKeyboard, getDictionary, getWord, showWordList, showWordPage, typeOfDictionary, getKeyboard } from './utils';
 
 enum InputMode {
   MainDictionary,
@@ -44,6 +46,11 @@ dictionaryScene.action('draftDictionary', async (ctx) => {
 dictionaryScene.action('find', async (ctx) => {
   inputMode = InputMode.FindWord;
   await ctx.reply('Введите слово, которое нужно найти:');
+});
+
+dictionaryScene.action('home', async (ctx) => {
+  inputMode = InputMode.Default;
+  await ctx.scene.enter('home');
 });
 
 dictionaryScene.hears('Следующая страница', async (ctx) => {
@@ -89,8 +96,11 @@ dictionaryScene.hears('Предыдущая страница', async (ctx) => {
       await ctx.reply('Ошибочка вышла, упс');
       break;
     }
+    default: {
+      await ctx.reply('Не понимаю тебя');
+    }
   }
-})
+});
 
 dictionaryScene.hears('В меню', async (ctx) => {
   inputMode = InputMode.Default;
@@ -99,20 +109,34 @@ dictionaryScene.hears('В меню', async (ctx) => {
   pagination.draftDictionary = 1;
   pagination.maxDraftDictionary = 1;
 
-  await ctx.reply('.', Markup.removeKeyboard());
+  await ctx.reply('Возвращаюсь...', Markup.removeKeyboard());
   await ctx.reply('Меню', dictionaryKeyboard);
 });
 
 dictionaryScene.on('text', async (ctx) => {
   switch (inputMode) {
     case InputMode.MainDictionary: {
-      const page: string = ctx.message.text;
-
+      const page: number = Number(ctx.message.text);
+      if (Number(page) > 0 && Number(page) <= pagination.maxMainDictionary) {
+        pagination.mainDictionary = page;
+        await getKeyboard(ctx, page, pagination.maxMainDictionary);
+        const dictionaryPage = await getDictionary(ctx, typeOfDictionary.mainDictionary, page);
+        await showWordList(ctx, dictionaryPage.words, page);
+      } else {
+        await ctx.reply('Что-то пошло не так...')
+      }
       break;
     }
     case InputMode.DraftDictionary: {
-      const page: string = ctx.message.text;
-
+      const page: number = Number(ctx.message.text);
+      if (Number(page) > 0 && Number(page) <= pagination.maxDraftDictionary) {
+        pagination.draftDictionary = page;
+        await getKeyboard(ctx, page, pagination.draftDictionary);
+        const dictionaryPage = await getDictionary(ctx, typeOfDictionary.draftDictionary, page);
+        await showWordList(ctx, dictionaryPage.words, page);
+      } else {
+        await ctx.reply('Что-то пошло не так...')
+      }
       break;
     }
     case InputMode.FindWord: {

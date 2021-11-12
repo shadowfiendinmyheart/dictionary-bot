@@ -46,7 +46,7 @@ export const getDictionary = async (
   };
 };
 
-const getKeyboard = async (
+export const getKeyboard = async (
   ctx: any,
   pagination: number,
   maxPagination: number
