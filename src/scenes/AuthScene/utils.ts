@@ -12,9 +12,9 @@ export const authKeyboard = Markup.inlineKeyboard([
 ]);
 
 export const allowText = (userData: IUserData) => {
-  return `<b>Принято!</b>\nЛогин: <i>${
-    userData.authLogin
-  }</i>\nПароль: ${'*'.repeat(userData.authPassword.length)}`;
+  return `<b>Принято!</b>\nЛогин: ${userData.authLogin}\nПароль: ${'*'.repeat(
+    userData.authPassword.length
+  )}`;
 };
 
 export const auth = async (ctx: any, userData: IUserData) => {

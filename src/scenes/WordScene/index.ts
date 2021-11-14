@@ -17,7 +17,7 @@ let inputMode: InputMode = InputMode.Default;
 const addWordScene = new Scenes.BaseScene<Scenes.SceneContext>('word');
 
 addWordScene.enter((ctx) => {
-  ctx.reply('Add word scene!', wordKeyboard);
+  ctx.reply('Выберите действие:', wordKeyboard);
 });
 
 addWordScene.action('addWord', async (ctx) => {
@@ -48,7 +48,7 @@ addWordScene.on('text', async (ctx) => {
         break;
       }
       await ctx.replyWithHTML(
-        `Карточка добавлена!\nСлово: <i>${result.word}</i>\nПеревод: ${result.translations}`,
+        `Карточка добавлена!\nСлово: ${result.word}\nПеревод: ${result.translations}`,
         wordKeyboard
       );
       inputMode = InputMode.Default;
@@ -58,7 +58,10 @@ addWordScene.on('text', async (ctx) => {
       const word: string = ctx.message.text;
       const result = await deleteWordFromDictionary(ctx, word);
       if (result.status !== 201) {
-        await ctx.reply('Произошла ошибка сервера', wordKeyboard);
+        await ctx.reply(
+          result.message || 'Произошла ошибка сервера',
+          wordKeyboard
+        );
         inputMode = InputMode.Default;
         break;
       }

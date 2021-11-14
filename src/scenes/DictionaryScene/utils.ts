@@ -5,7 +5,8 @@ import http from '../../utils/http';
 
 export interface IWord {
   word: string;
-  translations: string;
+  translations: Array<string>;
+  imageURL?: string;
 }
 
 export enum typeOfDictionary {

@@ -3,7 +3,15 @@ import { Message } from 'typegram';
 import { deleteChatMessage } from '../../utils/message';
 
 import { unexceptedUserInputHandler } from '../../utils/sceneHandler';
-import { dictionaryKeyboard, getDictionary, getWord, showWordList, showWordPage, typeOfDictionary, getKeyboard } from './utils';
+import {
+  dictionaryKeyboard,
+  getDictionary,
+  getWord,
+  showWordList,
+  showWordPage,
+  typeOfDictionary,
+  getKeyboard,
+} from './utils';
 
 enum InputMode {
   MainDictionary,
@@ -116,26 +124,34 @@ dictionaryScene.hears('В меню', async (ctx) => {
 dictionaryScene.on('text', async (ctx) => {
   switch (inputMode) {
     case InputMode.MainDictionary: {
-      const page: number = Number(ctx.message.text);
+      const page = Number(ctx.message.text);
       if (Number(page) > 0 && Number(page) <= pagination.maxMainDictionary) {
         pagination.mainDictionary = page;
         await getKeyboard(ctx, page, pagination.maxMainDictionary);
-        const dictionaryPage = await getDictionary(ctx, typeOfDictionary.mainDictionary, page);
+        const dictionaryPage = await getDictionary(
+          ctx,
+          typeOfDictionary.mainDictionary,
+          page
+        );
         await showWordList(ctx, dictionaryPage.words, page);
       } else {
-        await ctx.reply('Что-то пошло не так...')
+        await ctx.reply('Что-то пошло не так...');
       }
       break;
     }
     case InputMode.DraftDictionary: {
-      const page: number = Number(ctx.message.text);
+      const page = Number(ctx.message.text);
       if (Number(page) > 0 && Number(page) <= pagination.maxDraftDictionary) {
         pagination.draftDictionary = page;
         await getKeyboard(ctx, page, pagination.draftDictionary);
-        const dictionaryPage = await getDictionary(ctx, typeOfDictionary.draftDictionary, page);
+        const dictionaryPage = await getDictionary(
+          ctx,
+          typeOfDictionary.draftDictionary,
+          page
+        );
         await showWordList(ctx, dictionaryPage.words, page);
       } else {
-        await ctx.reply('Что-то пошло не так...')
+        await ctx.reply('Что-то пошло не так...');
       }
       break;
     }
