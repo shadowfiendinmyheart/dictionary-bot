@@ -7,6 +7,7 @@ import { debugLogger } from './middlewares/logger';
 import authScene from './scenes/AuthScene';
 import homeScene from './scenes/HomeScene';
 import wordScene from './scenes/WordScene';
+import gameScene from './scenes/GameScene';
 import dictionaryScene from './scenes/DictionaryScene';
 
 if (!process.env.BOT_TOKEN) {
@@ -19,6 +20,7 @@ const stage = new Scenes.Stage<Scenes.SceneContext>([
   homeScene,
   wordScene,
   dictionaryScene,
+  gameScene,
 ]);
 
 bot.use(debugLogger);

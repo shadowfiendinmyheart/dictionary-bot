@@ -18,13 +18,12 @@ homeScene.action('dictionary', async (ctx) => {
 });
 
 homeScene.action('game', async (ctx) => {
-  await ctx.reply('Мы (я😢) работаем над этим', homeKeyboard);
-  // await ctx.scene.enter('game');
+  await ctx.scene.enter('game');
 });
 
 homeScene.action('logout', async (ctx) => {
-  await ctx.scene.enter('auth');
   await ctx.reply('Вы вышли из аккаунта');
+  await ctx.scene.enter('auth');
 });
 
 homeScene.on('text', (ctx) => {

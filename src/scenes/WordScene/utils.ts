@@ -21,7 +21,7 @@ export const addWordInDictionary = async (ctx: any, word: string) => {
   if (checkWord?.message.translations?.length > 0) {
     return {
       status: checkWord.status,
-      message: `У вас уже есть такое слово:\nСлово: <i>${checkWord?.message.word}</i>\nПеревод: ${checkWord?.message.translations[0]}`,
+      message: `У вас уже есть такое слово:\nСлово: ${checkWord?.message.word}\nПеревод: ${checkWord?.message.translations[0]}`,
     };
   }
 
@@ -60,6 +60,22 @@ export const addWordInDictionary = async (ctx: any, word: string) => {
 };
 
 export const deleteWordFromDictionary = async (ctx: any, word: string) => {
+  const checkWord = await http(
+    API_URL + `words/getDraftWord?reqWord=${word}`,
+    'GET',
+    null,
+    {
+      Authorization: `Bearer ${ctx.session.accessToken}`,
+    }
+  );
+
+  if (checkWord.status !== 200) {
+    return {
+      status: checkWord.status,
+      message: 'У вас нет такого слова'
+    };
+  }
+
   const response = await http(
     API_URL + `words/deleteDraftWord`,
     'POST',
@@ -70,8 +86,6 @@ export const deleteWordFromDictionary = async (ctx: any, word: string) => {
       Authorization: `Bearer ${ctx.session.accessToken}`,
     }
   );
-
-  console.log('response', response);
 
   return {
     status: response.status,

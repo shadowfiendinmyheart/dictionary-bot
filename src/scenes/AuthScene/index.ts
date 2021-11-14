@@ -70,7 +70,7 @@ authScene.on('text', async (ctx) => {
       }
 
       userData.authLogin = login;
-      await editMessage(ctx, `<i>${userData.authLogin}</i>`);
+      await editMessage(ctx, userData.authLogin);
       ctx.replyWithHTML(allowText(userData), authKeyboard);
       inputMode = InputMode.Default;
       break;
