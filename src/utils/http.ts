@@ -4,7 +4,7 @@ const http = async (
   url: string,
   method = 'GET',
   body?: object | string | null,
-  headers?: object
+  headers?: object | null
 ) => {
   try {
     if (body) {
@@ -23,16 +23,8 @@ const http = async (
 
     const data = await res.json();
 
-    const rawCookies = res.headers.get('set-cookie')?.split(';');
-    const cookies: { [key: string]: any } = {};
-    rawCookies?.forEach((rawCookie) => {
-      const [name, value] = rawCookie.split('=');
-      cookies[name.trim()] = value ? value.trim() : null;
-    });
-
     const answer = {
       status: res.status,
-      cookies,
       ...data,
     };
     return answer;

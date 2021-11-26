@@ -30,7 +30,7 @@ export const getDictionary = async (
     API_URL + `words/${dictionary}?page=${numberOfPage}&mode=0`,
     'GET',
     null,
-    { Authorization: `Bearer ${ctx.session.accessToken}` }
+    { apikey: ctx?.session.apikey }
   );
 
   const words = request.words.map((word: IWord) => {
@@ -133,7 +133,7 @@ export const getWord = async (ctx: any, word: string) => {
     API_URL + `words/getWord?reqWord=${word}`,
     'GET',
     null,
-    { Authorization: `Bearer ${ctx.session.accessToken}` }
+    { apikey: ctx?.session.apikey }
   );
 
   return {

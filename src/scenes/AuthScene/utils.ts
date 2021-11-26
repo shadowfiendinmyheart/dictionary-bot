@@ -12,19 +12,18 @@ export const authKeyboard = Markup.inlineKeyboard([
 ]);
 
 export const allowText = (userData: IUserData) => {
-  return `<b>Принято!</b>\nЛогин: ${userData.authLogin}\nПароль: ${'*'.repeat(
-    userData.authPassword.length
+  return `<b>Принято!</b>\nЛогин: ${userData.login}\nПароль: ${'*'.repeat(
+    userData.password.length
   )}`;
 };
 
 export const auth = async (ctx: any, userData: IUserData) => {
-  const request = await http(API_URL + 'api/auth/login', 'POST', userData);
+  const request = await http(API_URL + 'user/apikey', 'POST', userData);
 
   if (!request || request.status !== 200) return false;
 
-  ctx.session ??= { refreshToken: '', accessToken: '' };
-  ctx.session.accessToken = request?.accessToken;
-  ctx.session.refreshToken = request?.cookies.refreshToken;
+  ctx.session ??= { apikey: '' };
+  ctx.session.apikey = request?.message.apikey;
 
   return true;
 };

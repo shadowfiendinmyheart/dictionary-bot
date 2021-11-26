@@ -13,9 +13,7 @@ export const addWordInDictionary = async (ctx: any, word: string) => {
     API_URL + `words/getEngWord?reqWord=${word}`,
     'GET',
     null,
-    {
-      Authorization: `Bearer ${ctx.session.accessToken}`,
-    }
+    { apikey: ctx?.session.apikey }
   );
 
   if (checkWord?.message.translations?.length > 0) {
@@ -29,9 +27,7 @@ export const addWordInDictionary = async (ctx: any, word: string) => {
     API_URL + `words/translate?word=${word}`,
     'GET',
     null,
-    {
-      Authorization: `Bearer ${ctx.session.accessToken}`,
-    }
+    { apikey: ctx?.session.apikey }
   );
 
   const addWord = await http(
@@ -41,9 +37,7 @@ export const addWordInDictionary = async (ctx: any, word: string) => {
       reqWord: word,
       reqTranslation: translations.message,
     },
-    {
-      Authorization: `Bearer ${ctx.session.accessToken}`,
-    }
+    { apikey: ctx?.session.apikey }
   );
 
   if (addWord.status != 201)
@@ -64,15 +58,13 @@ export const deleteWordFromDictionary = async (ctx: any, word: string) => {
     API_URL + `words/getDraftWord?reqWord=${word}`,
     'GET',
     null,
-    {
-      Authorization: `Bearer ${ctx.session.accessToken}`,
-    }
+    { apikey: ctx?.session.apikey }
   );
 
   if (checkWord.status !== 200) {
     return {
       status: checkWord.status,
-      message: 'У вас нет такого слова'
+      message: 'У вас нет такого слова',
     };
   }
 
@@ -82,9 +74,7 @@ export const deleteWordFromDictionary = async (ctx: any, word: string) => {
     {
       reqWord: word,
     },
-    {
-      Authorization: `Bearer ${ctx.session.accessToken}`,
-    }
+    { apikey: ctx?.session.apikey }
   );
 
   return {

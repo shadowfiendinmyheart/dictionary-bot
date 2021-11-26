@@ -4,13 +4,13 @@ import { editMessage } from '../../utils/message';
 import { authKeyboard, allowText, auth } from './utils';
 
 export interface IUserData {
-  authLogin: string;
-  authPassword: string;
+  login: string;
+  password: string;
 }
 
 const userData: IUserData = {
-  authLogin: '',
-  authPassword: '',
+  login: '',
+  password: '',
 };
 
 const replyMessagesId = {
@@ -43,7 +43,7 @@ authScene.action('password', async (ctx) => {
 });
 
 authScene.action('makeAuth', async (ctx) => {
-  if (userData.authLogin.length < 6 && userData.authPassword.length < 6) {
+  if (userData.login.length < 6 && userData.password.length < 6) {
     await ctx.replyWithHTML('Данные введены неверно', authKeyboard);
     inputMode = InputMode.Default;
     return;
@@ -51,7 +51,6 @@ authScene.action('makeAuth', async (ctx) => {
 
   const isAuth: boolean = await auth(ctx, userData);
   if (isAuth) {
-    console.log('session', ctx.session);
     await ctx.reply('Вы успешно авторизовались');
     ctx.scene.enter('home');
   } else {
@@ -69,8 +68,8 @@ authScene.on('text', async (ctx) => {
         break;
       }
 
-      userData.authLogin = login;
-      await editMessage(ctx, userData.authLogin);
+      userData.login = login;
+      await editMessage(ctx, userData.login);
       ctx.replyWithHTML(allowText(userData), authKeyboard);
       inputMode = InputMode.Default;
       break;
@@ -83,8 +82,8 @@ authScene.on('text', async (ctx) => {
         break;
       }
 
-      userData.authPassword = password;
-      await editMessage(ctx, '*'.repeat(userData.authPassword.length));
+      userData.password = password;
+      await editMessage(ctx, '*'.repeat(userData.password.length));
       ctx.replyWithHTML(allowText(userData), authKeyboard);
       inputMode = InputMode.Default;
       break;

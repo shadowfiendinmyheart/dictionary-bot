@@ -9,9 +9,7 @@ export const getCards = async (ctx: any) => {
       API_URL + 'words/getRandomWords?counterFilter=10&count=10&checkDate=0',
       'GET',
       null,
-      {
-        Authorization: `Bearer ${ctx.session.accessToken}`,
-      }
+      { apikey: ctx?.session.apikey }
     );
 
     const cards: IWord[] = requestCards.message.map((reqCard: IWord) => {
