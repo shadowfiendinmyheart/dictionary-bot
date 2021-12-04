@@ -37,7 +37,7 @@ export const getDictionary = async (
     return {
       word: word.word,
       translations: word.translations,
-      image: word.imageURL 
+      imageURL: word.imageURL 
     };
   });
 
@@ -126,7 +126,7 @@ export const showWordList = async (
         word.word
       }</b>\n${word.translations[0]}`
     );
-
+    
     if (word.imageURL) {
       await ctx.replyWithPhoto( {source: Buffer.from(word.imageURL, 'base64')} );
     }

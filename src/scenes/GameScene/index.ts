@@ -23,6 +23,7 @@ gameScene.enter(async (ctx) => {
       };
     });
     await ctx.reply(gameStat[gameStatCounter].word);
+    await ctx.replyWithPhoto( {source: Buffer.from(String(gameStat[gameStatCounter].imageURL), 'base64')} );
   }
 });
 
@@ -41,6 +42,7 @@ gameScene.on('text', async (ctx) => {
 
   if (gameStatCounter < gameStat.length) {
     await ctx.reply(gameStat[gameStatCounter].word);
+    await ctx.replyWithPhoto( {source: Buffer.from(String(gameStat[gameStatCounter].imageURL), 'base64')} );
   }
 
   if (gameStatCounter === gameStat.length) {

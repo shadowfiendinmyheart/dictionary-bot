@@ -16,6 +16,7 @@ export const getCards = async (ctx: any) => {
       return {
         word: reqCard.word,
         translations: reqCard.translations[0],
+        imageURL: reqCard.imageURL
       };
     });
 
