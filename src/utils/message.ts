@@ -12,7 +12,7 @@ export const deleteUserMessage = async (ctx: Context) => {
 };
 
 // TODO: сделать обновляемое меню
-export const deleteChatMessage = async (message: Message.TextMessage) => {
+export const deleteChatMessage = async (message: Message) => {
   await telegram.deleteMessage(message.chat.id, message.message_id);
 };
 

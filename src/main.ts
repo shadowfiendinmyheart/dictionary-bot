@@ -8,6 +8,7 @@ import authScene from './scenes/AuthScene';
 import homeScene from './scenes/HomeScene';
 import wordScene from './scenes/WordScene';
 import gameScene from './scenes/GameScene';
+import imageScene from './scenes/ImageScene';
 import dictionaryScene from './scenes/DictionaryScene';
 
 if (!process.env.BOT_TOKEN) {
@@ -19,8 +20,9 @@ const stage = new Scenes.Stage<Scenes.SceneContext>([
   authScene,
   homeScene,
   wordScene,
-  dictionaryScene,
   gameScene,
+  imageScene,
+  dictionaryScene,
 ]);
 
 bot.use(debugLogger);

@@ -1,6 +1,4 @@
 import { Markup, Scenes } from 'telegraf';
-import { Message } from 'typegram';
-import { deleteChatMessage } from '../../utils/message';
 
 import { unexceptedUserInputHandler } from '../../utils/sceneHandler';
 import {
@@ -58,6 +56,12 @@ dictionaryScene.action('find', async (ctx) => {
 
 dictionaryScene.action('home', async (ctx) => {
   inputMode = InputMode.Default;
+  pagination.mainDictionary = 1;
+  pagination.maxMainDictionary = 1;
+  pagination.draftDictionary = 1;
+  pagination.maxDraftDictionary = 1;
+
+  await ctx.reply('Возвращаюсь...', Markup.removeKeyboard());
   await ctx.scene.enter('home');
 });
 

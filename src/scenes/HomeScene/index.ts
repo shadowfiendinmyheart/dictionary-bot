@@ -21,6 +21,10 @@ homeScene.action('game', async (ctx) => {
   await ctx.scene.enter('game');
 });
 
+homeScene.action('image', async (ctx) => {
+  await ctx.scene.enter('image');
+});
+
 homeScene.action('logout', async (ctx) => {
   await ctx.reply('Вы вышли из аккаунта');
   await ctx.scene.enter('auth');
