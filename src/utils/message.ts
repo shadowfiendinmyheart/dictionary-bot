@@ -5,15 +5,23 @@ import { Message } from 'typegram';
 const telegram: Telegram = new Telegram(process.env.BOT_TOKEN as string);
 
 export const deleteUserMessage = async (ctx: Context) => {
-  if (ctx.message) {
-    const messageId: number = ctx.message.message_id;
-    await ctx.deleteMessage(messageId);
+  try {
+    if (ctx.message) {
+      const messageId: number = ctx.message.message_id;
+      await ctx.deleteMessage(messageId);
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
 
 // TODO: сделать обновляемое меню
 export const deleteChatMessage = async (message: Message) => {
-  await telegram.deleteMessage(message.chat.id, message.message_id);
+  try {
+    await telegram.deleteMessage(message.chat.id, message.message_id);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const editChatMessage = async (
@@ -21,16 +29,24 @@ export const editChatMessage = async (
   text: string,
   keyboard?: ExtraEditMessageText
 ) => {
-  await telegram.editMessageText(
-    message.chat.id,
-    message.message_id,
-    '',
-    text,
-    keyboard
-  );
+  try {
+    await telegram.editMessageText(
+      message.chat.id,
+      message.message_id,
+      '',
+      text,
+      keyboard
+    );
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const editMessage = async (ctx: Context, newText: string) => {
-  await deleteUserMessage(ctx);
-  await ctx.replyWithHTML(newText);
+  try {
+    await deleteUserMessage(ctx);
+    await ctx.replyWithHTML(newText);
+  } catch (e) {
+    console.log(e);
+  }
 };

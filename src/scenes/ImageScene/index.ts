@@ -23,7 +23,7 @@ const showImage = async (ctx: any) => {
         const base64 = await convertFromUrlToBase64(images[pagination]);
         imageMessage = await ctx.replyWithPhoto({ source: Buffer.from(base64, 'base64') }, imageKeyboard);
     } catch (e) {
-        console.log(e);
+        throw new Error(String(e));
     }
 }
 
@@ -35,13 +35,18 @@ imageScene.enter((ctx) => {
 });
 
 imageScene.action('prevImage', async (ctx) => {
-    if (pagination === 0) {
+    if (pagination <= 0) {
         await ctx.reply('Туда нельзя');
         return;
     }
 
     pagination--;
-    await showImage(ctx);
+    try {
+        await showImage(ctx);
+    } catch (e) {
+        pagination--;
+        await showImage(ctx);
+    }
 });
 
 imageScene.action('pickImage', async (ctx) => {
@@ -57,7 +62,12 @@ imageScene.action('nextImage', async (ctx) => {
     }
 
     pagination++;
-    await showImage(ctx);
+    try {
+        await showImage(ctx);
+    } catch (e) {
+        pagination++;
+        await showImage(ctx);
+    }
 });
 
 imageScene.action('rename', async (ctx) => {
