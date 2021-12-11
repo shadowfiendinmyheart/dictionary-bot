@@ -9,6 +9,7 @@ export const authKeyboard = Markup.inlineKeyboard([
     Markup.button.callback('Пароль', 'password'),
   ],
   [Markup.button.callback('Авторизоваться', 'makeAuth')],
+  [Markup.button.callback('Зарегистрироваться', 'makeRegistration')],
 ]);
 
 export const allowText = (userData: IUserData) => {
@@ -24,6 +25,22 @@ export const auth = async (ctx: any, userData: IUserData) => {
 
   ctx.session ??= { apikey: '' };
   ctx.session.apikey = request?.message.apikey;
+
+  return true;
+};
+
+export const registration = async (ctx: any, userData: IUserData) => {
+  const request = await http(API_URL + 'api/auth/registration', 'POST', {
+    regNickname: userData.login,
+    regLogin: userData.login,
+    regPassword: userData.password,
+    regPasswordRepeat: userData.password
+  });
+
+  if (!request || request.status !== 201) {
+    ctx.reply(request.message);
+    return false;
+  }
 
   return true;
 };

@@ -1,7 +1,7 @@
 import { Scenes } from 'telegraf';
 
 import { editMessage } from '../../utils/message';
-import { authKeyboard, allowText, auth } from './utils';
+import { authKeyboard, allowText, auth, registration } from './utils';
 
 export interface IUserData {
   login: string;
@@ -43,8 +43,8 @@ authScene.action('password', async (ctx) => {
 });
 
 authScene.action('makeAuth', async (ctx) => {
-  if (userData.login.length < 6 && userData.password.length < 6) {
-    await ctx.replyWithHTML('Данные введены неверно', authKeyboard);
+  if (userData.login.length < 6 || userData.password.length < 6) {
+    await ctx.reply('Данные введены неверно', authKeyboard);
     inputMode = InputMode.Default;
     return;
   }
@@ -54,7 +54,23 @@ authScene.action('makeAuth', async (ctx) => {
     await ctx.reply('Вы успешно авторизовались');
     ctx.scene.enter('home');
   } else {
-    await ctx.replyWithHTML('Данные введены неверно', authKeyboard);
+    await ctx.reply('Данные введены неверно', authKeyboard);
+  }
+});
+
+authScene.action('makeRegistration', async (ctx) => {
+  if (userData.login.length < 6 || userData.password.length < 6) {
+    await ctx.reply('Данные введены неверно', authKeyboard);
+    inputMode = InputMode.Default;
+    return;
+  }
+
+  const isAuth: boolean = await registration(ctx, userData);
+  if (isAuth) {
+    await ctx.reply('Вы успешно зарегистрировались');
+    await ctx.replyWithHTML(allowText(userData), authKeyboard);
+  } else {
+    await ctx.reply('Данные введены неверно', authKeyboard);
   }
 });
 
