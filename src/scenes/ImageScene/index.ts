@@ -32,6 +32,7 @@ const imageScene = new Scenes.BaseScene<Scenes.SceneContext>('image');
 imageScene.enter((ctx) => {
     ctx.reply('Введите слово, к которому нужно добавить картинку:',
         Markup.keyboard([['В меню']]).resize(true));
+    console.log('InputMode', inputMode);
 });
 
 imageScene.action('prevImage', async (ctx) => {

@@ -33,6 +33,16 @@ export const getDictionary = async (
     { apikey: ctx?.session.apikey }
   );
 
+  console.log('request', request);
+
+  if (request.words.length === 0) {
+    return {
+      status: request.status,
+      words: [],
+      pagesTotal: request.pagesTotal,
+    };
+  }
+
   const words = request.words.map((word: IWord) => {
     return {
       word: word.word,

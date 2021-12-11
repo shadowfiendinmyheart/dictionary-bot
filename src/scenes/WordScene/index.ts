@@ -35,9 +35,13 @@ addWordScene.action('home', async (ctx) => {
 });
 
 addWordScene.on('text', async (ctx) => {
+  const word: string = ctx.message.text;
+  if (!/[a-zA-Z]/.test(word)) {
+    await ctx.reply('неверные символы');
+    return;
+  }
   switch (inputMode) {
     case InputMode.Add: {
-      const word: string = ctx.message.text;
       const result = await addWordInDictionary(ctx, word);
       if (result.status != 201) {
         await ctx.replyWithHTML(
@@ -55,7 +59,6 @@ addWordScene.on('text', async (ctx) => {
       break;
     }
     case InputMode.Delete: {
-      const word: string = ctx.message.text;
       const result = await deleteWordFromDictionary(ctx, word);
       if (result.status !== 201) {
         await ctx.reply(

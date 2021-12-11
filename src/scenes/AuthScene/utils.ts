@@ -30,17 +30,33 @@ export const auth = async (ctx: any, userData: IUserData) => {
 };
 
 export const registration = async (ctx: any, userData: IUserData) => {
-  const request = await http(API_URL + 'api/auth/registration', 'POST', {
-    regNickname: userData.login,
-    regLogin: userData.login,
-    regPassword: userData.password,
-    regPasswordRepeat: userData.password
-  });
+  try {
+    const requestRegistrarion = await http(API_URL + 'api/auth/registration', 'POST', {
+      regNickname: userData.login,
+      regLogin: userData.login,
+      regPassword: userData.password,
+      regPasswordRepeat: userData.password
+    });
 
-  if (!request || request.status !== 201) {
-    ctx.reply(request.message);
-    return false;
+    if (!requestRegistrarion || requestRegistrarion.status !== 201) {
+      ctx.reply(requestRegistrarion.message);
+      return false;
+    }
+
+    const requestCreateDictionary = await http(API_URL + 'words/createDictionary',
+      'POST',
+      {},
+      { apikey: requestRegistrarion.apiKey }
+    );
+
+    if (!requestCreateDictionary || requestCreateDictionary.status !== 201) {
+      ctx.reply(requestCreateDictionary.message);
+      return false;
+    }
+
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false
   }
-
-  return true;
 };
