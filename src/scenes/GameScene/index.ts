@@ -1,11 +1,7 @@
 import { Scenes } from 'telegraf';
-import { IWord } from '../DictionaryScene/utils';
 import { getCards } from './utils';
 
-interface IGameStat extends IWord {
-  isAnswered: boolean;
-  userAnswer?: string;
-}
+import { IGameStat } from '../../types/interfaces';
 
 const gameScene = new Scenes.BaseScene<Scenes.SceneContext>('game');
 

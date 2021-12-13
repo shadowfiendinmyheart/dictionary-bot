@@ -11,18 +11,13 @@ import {
   getKeyboard,
 } from './utils';
 
+import { IPagination } from '../../types/interfaces';
+
 enum InputMode {
   MainDictionary,
   DraftDictionary,
   FindWord,
   Default,
-}
-
-export interface IPagination {
-  mainDictionary: number;
-  maxMainDictionary: number;
-  draftDictionary: number;
-  maxDraftDictionary: number;
 }
 
 const pagination: IPagination = {

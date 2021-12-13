@@ -1,8 +1,7 @@
 import { API_URL } from '../../const';
 import http from '../../utils/http';
-import { IWord } from '../DictionaryScene/utils';
+import { IWord } from '../../types/interfaces';
 
-// TODO: прикрутить картинки
 export const getCards = async (ctx: any) => {
   try {
     const requestCards = await http(

@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { Telegraf, session, Scenes } from 'telegraf';
+import { Telegraf, session, Scenes, Context } from 'telegraf';
 import { stopLoadingInlineButton } from './middlewares/inlineKeyboardMiddleware';
 
 import { debugLogger } from './middlewares/logger';
@@ -32,7 +32,6 @@ bot.use(stage.middleware());
 
 bot.start(async (ctx) => {
   await ctx.reply('Добро пожаловать');
-  // на время разработки
   ctx.scene.enter('auth');
 });
 

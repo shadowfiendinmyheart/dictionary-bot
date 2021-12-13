@@ -1,7 +1,8 @@
 import { Markup } from 'telegraf';
-import { IUserData } from '.';
 import { API_URL } from '../../const';
 import http from '../../utils/http';
+
+import { IUserData } from '../../types/interfaces';
 
 export const authKeyboard = Markup.inlineKeyboard([
   [

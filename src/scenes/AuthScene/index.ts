@@ -3,10 +3,7 @@ import { Scenes } from 'telegraf';
 import { editMessage } from '../../utils/message';
 import { authKeyboard, allowText, auth, registration } from './utils';
 
-export interface IUserData {
-  login: string;
-  password: string;
-}
+import { IUserData } from '../../types/interfaces';
 
 const userData: IUserData = {
   login: '',

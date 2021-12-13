@@ -10,7 +10,7 @@ enum InputMode {
     Default,
 }
 
-let inputMode: InputMode = InputMode.FindWord;
+let inputModeImage: InputMode = InputMode.FindWord;
 let imageMessage: Message;
 let word: string;
 let translations: string;
@@ -32,7 +32,6 @@ const imageScene = new Scenes.BaseScene<Scenes.SceneContext>('image');
 imageScene.enter((ctx) => {
     ctx.reply('Введите слово, к которому нужно добавить картинку:',
         Markup.keyboard([['В меню']]).resize(true));
-    console.log('InputMode', inputMode);
 });
 
 imageScene.action('prevImage', async (ctx) => {
@@ -73,11 +72,11 @@ imageScene.action('nextImage', async (ctx) => {
 
 imageScene.action('rename', async (ctx) => {
     await ctx.reply('Введите слово для поиска картинка');
-    inputMode = InputMode.FindImage;
+    inputModeImage = InputMode.FindImage;
 });
 
 imageScene.hears('В меню', async (ctx) => {
-    inputMode = InputMode.Default;
+    inputModeImage = InputMode.Default;
     word = '';
     translations = '';
     images = [];
@@ -88,7 +87,7 @@ imageScene.hears('В меню', async (ctx) => {
 
 imageScene.on('text', async (ctx) => {
     const userInput: string = ctx.message.text;
-    switch (inputMode) {
+    switch (inputModeImage) {
         case InputMode.FindWord: {
             const response = await findWord(ctx, userInput);
             if (response.status != 200) {
@@ -98,10 +97,10 @@ imageScene.on('text', async (ctx) => {
 
             word = response.message.word;
             translations = response.message.translations[0];
-            await ctx.replyWithHTML(`У вас действительно есть это слово\n<b>${response.message.word}</b>\n<i>${response.message.translations[0]}</i>`);
+            await ctx.replyWithHTML(`У вас есть это слово\n<b>${response.message.word}</b>\n<i>${response.message.translations[0]}</i>`);
 
             await ctx.reply('Введите слово для поиска картинка');
-            inputMode = InputMode.FindImage
+            inputModeImage = InputMode.FindImage
             break;
         }
 
@@ -120,7 +119,7 @@ imageScene.on('text', async (ctx) => {
                 return;
             }
 
-            inputMode = InputMode.Default;
+            inputModeImage = InputMode.Default;
             break;
         }
         default: {

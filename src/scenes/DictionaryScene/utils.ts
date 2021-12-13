@@ -1,13 +1,8 @@
 import { Markup, Scenes } from 'telegraf';
-import { IPagination } from '.';
 import { API_URL } from '../../const';
 import http from '../../utils/http';
 
-export interface IWord {
-  word: string;
-  translations: Array<string>;
-  imageURL?: string;
-}
+import { IPagination, IWord } from '../../types/interfaces';
 
 export enum typeOfDictionary {
   mainDictionary = 'getWordsList',
@@ -32,8 +27,6 @@ export const getDictionary = async (
     null,
     { apikey: ctx?.session.apikey }
   );
-
-  console.log('request', request);
 
   if (request.words.length === 0) {
     return {
