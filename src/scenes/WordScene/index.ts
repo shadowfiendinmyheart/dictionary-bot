@@ -36,8 +36,8 @@ addWordScene.action('home', async (ctx) => {
 
 addWordScene.on('text', async (ctx) => {
   const word: string = ctx.message.text;
-  if (!/[a-zA-Z]/.test(word)) {
-    await ctx.reply('неверные символы');
+  if (!/^[a-zA-Z\ ]+$/.test(word)) {
+    await ctx.reply('Неверные символы');
     return;
   }
   switch (inputMode) {
@@ -52,7 +52,7 @@ addWordScene.on('text', async (ctx) => {
         break;
       }
       await ctx.replyWithHTML(
-        `Карточка добавлена!\nСлово: ${result.word}\nПеревод: ${result.translations}`,
+        `Успешно!\nСлово: ${result.word}\nПеревод: ${result.translations}`,
         wordKeyboard
       );
       inputMode = InputMode.Default;

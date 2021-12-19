@@ -156,6 +156,11 @@ dictionaryScene.on('text', async (ctx) => {
     }
     case InputMode.FindWord: {
       const userWord: string = ctx.message.text;
+      if (!/^[a-zA-Z\ ]+$/.test(userWord)) {
+        await ctx.reply('Неверные символы');
+        return;
+      }
+      
       const wordRequest = await getWord(ctx, userWord);
 
       if (wordRequest.status !== 200) {

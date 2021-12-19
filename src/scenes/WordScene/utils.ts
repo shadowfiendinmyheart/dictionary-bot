@@ -30,6 +30,13 @@ export const addWordInDictionary = async (ctx: any, word: string) => {
     { apikey: ctx?.session.apikey }
   );
 
+  if (translations.status === 400) {
+    return {
+      status: checkWord.status,
+      message: `Странное слово...`,
+    };
+  }
+
   const addWord = await http(
     API_URL + `words/addDraftWord`,
     'POST',
